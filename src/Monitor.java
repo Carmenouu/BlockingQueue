@@ -17,8 +17,10 @@ public class Monitor {
 		}
 		
 		available = false ;
+		String bufferToReturn = bufferLettre ;
+		bufferLettre = null ;
 		notifyAll();
-		return bufferLettre ;
+		return bufferToReturn ;
 	}
 	
 	
