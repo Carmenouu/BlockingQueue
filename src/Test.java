@@ -2,11 +2,12 @@
 public class Test {
 	
 	public static void main(String args[]) {
-		Monitor bal = new Monitor() ;
+		BoiteAuxLettres bal = new BoiteAuxLettres() ;
 		Consumer c = new Consumer(bal) ;
-		Producer p = new Producer(bal/*, "Test du moniteur"*/) ;
+		Producer p = new Producer(bal) ;
 		p.start();
 		c.start();
+		
 	}
 
 }

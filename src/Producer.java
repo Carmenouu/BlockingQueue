@@ -4,41 +4,45 @@ import java.io.InputStreamReader;
 
 
 public class Producer extends Thread {
-	private Monitor boiteAuxLettres ;
+	private BoiteAuxLettres boiteAuxLettres ;
 	private String lettreP ;
-	private boolean fini ;
+	private boolean fini = false ;
 	
-	public Producer(Monitor parM/*, String parLettre*/) {
-		boiteAuxLettres = parM ;
-		//lettreP = parLettre ;
+	public Producer(BoiteAuxLettres parBAL) {
+		boiteAuxLettres = parBAL ;
 		lettreP = new String() ;
-		fini = false ;
 	}
 	
 	public void run() {
 		
 		while (!fini) {
-			BufferedReader keyboard=new BufferedReader(new InputStreamReader(System.in));
-			
-			System.out.println("Ecrire la lettre :");
-			try{
-				lettreP=keyboard.readLine();//Recup du texte
-			}catch(IOException e){
-				System.out.println("err");
-			}
-			
-			if (lettreP.equals("Q")) {
-				fini = true ;
-			}
-			
-			boiteAuxLettres.write(lettreP) ;
 			try {
-				sleep(100) ;
-			} catch (InterruptedException e) {
+				BufferedReader keyboard=new BufferedReader(new InputStreamReader(System.in));
+				
+				System.out.println("Ecrire la lettre :");
+				try{
+					lettreP=keyboard.readLine();//Recup du texte
+				}catch(IOException e){
+					System.out.println("err");
+				}
+				
+				if (lettreP.equals("Q")) {
+					fini=true;
+					this.interrupt();
+				}
+				
+				boiteAuxLettres.write(lettreP) ;
+				Thread.sleep(1000) ;
+			} 
+			
+			catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println("Plus de lettres à écrire");
 			}
 		}
 		
+
+				
 	}
 }

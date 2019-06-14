@@ -1,23 +1,33 @@
 
 public class Consumer extends Thread {
 
-	private Monitor boiteAuxLettres ;
+	private BoiteAuxLettres boiteAuxLettres ;
 	private String lettreC ;
-	private boolean fini ;
+	private boolean fini = false ;
 	
-	public Consumer(Monitor parM) {
-		boiteAuxLettres = parM ;
+	public Consumer(BoiteAuxLettres parBAL) {
+		boiteAuxLettres = parBAL ;
 		lettreC = new String() ;
-		fini = false ;
 	}
 	
 	public void run() {
 		while (!fini) {
-			lettreC = boiteAuxLettres.read() ;
-			System.out.println(lettreC);
-			
-			if (lettreC.equals("Q")) {
-				fini = true ;
+			try {
+				Thread.sleep(1000) ;
+				lettreC = boiteAuxLettres.read() ;
+				if (lettreC != null) {
+					System.out.println(lettreC);
+				}
+				
+				if (lettreC == "Q") {
+					fini = true ;
+					this.interrupt();
+				}
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Fini.\n") ;
 			}
 		}
 		
